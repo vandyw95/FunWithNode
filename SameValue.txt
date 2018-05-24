@@ -1,0 +1,42 @@
+var input = [1,2,3,5,6,7];
+
+function sameValue(input) {
+  // Sort the array because this algorithm need to check the next value of traversed element.
+  input.sort((a, b) => a - b);
+  // Add a 'mark' to the end of array to split duplicate number from original array element.
+  input.push('mark');
+  for(let i = input.length; i > 0 ; i--) {
+    if (input[1] === 'mark') {
+      // Then after looping until array[0] have the original value of array[array.length - 1]
+      // which is biggest than the rest of other element of array, we delete it because we
+      // knew the value just encountered and have no other element in input array have the
+      // same value and then break the loop.
+      input.splice(0, 2);
+      break;
+    } else if(input[0] === 'mark') {
+      input.splice(0, 1);
+      break;
+    } else if (input[0] === input[1]) {
+      // If array[0] === array[1] then delete array[0] and check if the next array
+      // have same value with current array[0]. If different then push array[0]
+      // to the back so we knew that this 'value' duplicated in inputted array.
+      input.splice(0, 1);
+      if (input[0] !== input[1]) {
+        // If the next number have different value, we push current array[0] to the back.
+        input.push(input[0]);
+        input.splice(0, 1);
+        if (input[0] < input[input.length - 1]) {
+          // After clearing previous element which have the same value (pushed to the back),
+          // we break the loop.
+          break;
+        }
+      }
+    } else if (input[0] < input[1]){
+      // If the next value bigger which is clearly not equal, delete the element.
+      input.splice(0, 1);
+    }
+  }
+  // Return the result
+  return input.length ? input : 'There is no duplicate';
+}
+console.log(sameValue(input));

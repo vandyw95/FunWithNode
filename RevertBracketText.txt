@@ -1,0 +1,29 @@
+const exampleStringInput = 'Abc (abc) a(b(cd)ef)';
+// revertBracketText(exampleStringInput);
+// => 'Abc cba afecdb'
+
+function revertBracketTextImperative(input) {
+  while (input.indexOf('(') !== -1) {
+    let left = input.slice(0, input.lastIndexOf('('));
+    let right = input.slice(input.lastIndexOf('(') + 1, input.length);
+    let mid = input.slice((input.lastIndexOf('(') + 1), ((left.length) + (right.indexOf(')') + 1)));
+    mid = mid.split('').reverse().join('');
+    input = left + mid + right.slice(mid.length + 1, right.length);
+  }
+  return console.log(input);
+}
+revertBracketTextImperative(exampleStringInput);
+
+function revertBracketTextRecursive(input) {
+  if (input.indexOf('(') !== -1) {
+    let left = input.slice(0, input.lastIndexOf('('));
+    let right = input.slice(input.lastIndexOf('(') + 1, input.length);
+    let mid = input.slice((input.lastIndexOf('(') + 1), ((left.length) + (right.indexOf(')') + 1)));
+    mid = mid.split('').reverse().join('');
+    input = left + mid + right.slice(mid.length + 1, right.length);
+    return revertBracketTextRecursive(input);
+  } else {
+    return input;
+  }
+}
+console.log(revertBracketTextRecursive(exampleStringInput));
